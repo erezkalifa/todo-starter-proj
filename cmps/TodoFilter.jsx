@@ -11,7 +11,7 @@ export function TodoFilter({ filterBy, onSetFilterBy }) {
   function handleChange({ target }) {
     const field = target.name;
     let value = target.value;
-    console.log(value);
+    console.log(value, field);
 
     switch (target.type) {
       case "number":
@@ -59,9 +59,8 @@ export function TodoFilter({ filterBy, onSetFilterBy }) {
           id="importance"
           name="importance"
         />
-        <br></br>
-        <br></br>
-        <label for="selectTodo">Choose which todos :</label>
+
+        <label htmlFor="selectTodo">Choose which todos to show :</label>
         <select onChange={handleChange} name="selectTodo" id="selectTodo">
           <option value="all">All</option>
           <option value="active">Active</option>

@@ -28,6 +28,16 @@ function query(filterBy = {}) {
       todos = todos.filter((todo) => todo.importance >= filterBy.importance);
     }
 
+    const filterConditions = {
+      active: (todo) => !todo.isDone,
+      done: (todo) => todo.isDone,
+      all: () => true,
+    };
+
+    todos = filterBy.selectTodo
+      ? todos.filter(filterConditions[filterBy.selectTodo])
+      : todos;
+
     return todos;
   });
 }
