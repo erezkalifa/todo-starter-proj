@@ -24,7 +24,7 @@ export function todoReducer(state = initialState, cmd = {}) {
     case REMOVE_TODO:
       return {
         ...state,
-        todos: cmd.todos.filter((todo) => todo !== cmd.todoId),
+        todos: state.todos.filter((todo) => todo._id !== cmd.todoId),
       };
     case ADD_TODO:
       return {
@@ -43,5 +43,8 @@ export function todoReducer(state = initialState, cmd = {}) {
 
     case SET_IS_LOADING:
       return { ...state, isLoading: cmd.isLoading };
+
+    default:
+      return state;
   }
 }

@@ -20,13 +20,18 @@ export function loadTodos() {
       console.log("todos action -> Cannot load todos", err);
       throw err;
     })
-    .finally(store.dispatch({ type: SET_IS_LOADING, isLoading: false }));
+    .finally(() => {
+      store.dispatch({ type: SET_IS_LOADING, isLoading: false });
+    });
 }
 
 export function removeTodo(todoId) {
+  console.log(todoId);
   return todoService
     .remove(todoId)
-    .then(() => store.dispatch({ type: REMOVE_TODO, todoId }))
+    .then(() => {
+      store.dispatch({ type: REMOVE_TODO, todoId });
+    })
     .catch((err) => {
       console.log("todos action -> Cannot remove todos", err);
       throw err;
@@ -35,10 +40,14 @@ export function removeTodo(todoId) {
 
 export function saveTodo(todo) {
   const type = todo.id ? UPDATE_TODO : ADD_TODO;
-  return todoService.save(todo).then(() =>
-    dispatch({ type, todo }).catch((err) => {
-      console.log("todos action -> Cannot remove todos", err);
-      throw err;
+  return todoService
+    .save(todo)
+    .then((savedTodo) => {
+      store.dispatch({ type, todo: savedTodo });
+      return savedTodo;
     })
-  );
+    .catch((err) => {
+      console.log("todo action -> Cannot save todo", err);
+      throw err;
+    });
 }
