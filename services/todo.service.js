@@ -57,6 +57,7 @@ function save(todo) {
   if (todo._id) {
     // TODO - updatable fields
     todo.updatedAt = Date.now();
+
     return storageService.put(TODO_KEY, todo);
   } else {
     todo.createdAt = todo.updatedAt = Date.now();

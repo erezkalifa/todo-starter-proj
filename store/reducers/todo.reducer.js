@@ -35,7 +35,7 @@ export function todoReducer(state = initialState, cmd = {}) {
       return {
         ...state,
         todos: state.todos.map((todo) =>
-          todo.id === cmd.todo.id ? cmd.todo : todo
+          todo._id === cmd.todo._id ? cmd.todo : todo
         ),
       };
     case SET_FILTER_BY:

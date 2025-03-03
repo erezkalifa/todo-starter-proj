@@ -1,12 +1,17 @@
 const { useEffect } = React;
+
 import { TodoFilter } from "../cmps/TodoFilter.jsx";
 import { TodoList } from "../cmps/TodoList.jsx";
 import { DataTable } from "../cmps/data-table/DataTable.jsx";
 import { todoService } from "../services/todo.service.js";
 import { showErrorMsg, showSuccessMsg } from "../services/event-bus.service.js";
 import { SET_FILTER_BY } from "../store/reducers/todo.reducer.js";
-import { loadTodos, removeTodo } from "../store/actions/todo.actions.js";
-
+// import {
+//   loadTodos,
+//   removeTodo,
+//   saveTodo,
+// } from "../store/actions/todo.actions.js";
+import * as todoActions from "../store/actions/todo.actions.js";
 const { Link, useSearchParams } = ReactRouterDOM;
 const { useSelector, useDispatch } = ReactRedux;
 
@@ -24,7 +29,7 @@ export function TodoIndex() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    loadTodos().catch(() => showErrorMsg("Cannot load todos"));
+    todoActions.loadTodos().catch(() => showErrorMsg("Cannot load todos"));
     setSearchParams(filterBy);
   }, [filterBy]);
 
@@ -33,14 +38,16 @@ export function TodoIndex() {
   }
 
   function onRemoveTodo(todoId) {
-    removeTodo(todoId)
+    todoActions
+      .removeTodo(todoId)
       .then(() => showSuccessMsg("Todo removed"))
       .catch(() => showErrorMsg("Cannot load todo's"));
   }
 
   function onToggleTodo(todo) {
     const todoToSave = { ...todo, isDone: !todo.isDone };
-    saveTodo(todoToSave)
+    todoActions
+      .saveTodo(todoToSave)
       .then((savedTodo) => {
         showSuccessMsg(
           `Todo is ${savedTodo.isDone ? "done" : "back on your list"}`
